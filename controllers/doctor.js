@@ -180,7 +180,7 @@ exports.searchDoctors = async function (req, res, next) {
     ' ',
     req.body.query
   );
-  if (req.body.coordinates != undefined) {
+  if (req.body.coordinates != undefined && req.body.coordinates[0] != null) {
     var doctors = await Doctor.find({
       location: {
         $near: {
