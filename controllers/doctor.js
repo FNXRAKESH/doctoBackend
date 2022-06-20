@@ -155,7 +155,7 @@ exports.deleteDoctor = (req, res) => {
 
 //doctors listing on homepage
 exports.getAllDoctors = (req, res) => {
-  let limit = req.query.limit ? parseInt(req.query.limit) : 50;
+  let limit = req.query.limit ? parseInt(req.query.limit) : null;
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
 
   Doctor.find()
