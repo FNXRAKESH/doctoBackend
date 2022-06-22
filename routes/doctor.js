@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 const {
@@ -9,20 +9,21 @@ const {
   deleteDoctor,
   getAllDoctors,
   searchDoctors,
-  filterRecommendations
-} = require("../controllers/doctor");
-const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
-const { getUserById } = require("../controllers/user");
+  filterRecommendations,
+  getDoctorsBySpeciality
+} = require('../controllers/doctor');
+const { isSignedIn, isAuthenticated, isAdmin } = require('../controllers/auth');
+const { getUserById } = require('../controllers/user');
 
 //all of params
-router.param("userId", getUserById);
-router.param("doctorId", getDoctorById);
+router.param('userId', getUserById);
+router.param('doctorId', getDoctorById);
 
 //all of actual routes
 
 //create route
 router.post(
-  "/doctor/create/:userId",
+  '/doctor/create/:userId',
   isSignedIn,
   isAuthenticated,
   isAdmin,
@@ -31,11 +32,11 @@ router.post(
 );
 
 // read routes
-router.get("/doctor/:doctorId", getDoctor);
+router.get('/doctor/:doctorId', getDoctor);
 
 //update route
 router.put(
-  "/doctor/:doctorId/:userId",
+  '/doctor/:doctorId/:userId',
   isSignedIn,
   isAuthenticated,
   isAdmin,
@@ -44,7 +45,7 @@ router.put(
 
 //delete route
 router.delete(
-  "/doctor/:doctorId/:userId",
+  '/doctor/:doctorId/:userId',
   isSignedIn,
   isAuthenticated,
   isAdmin,
@@ -52,13 +53,16 @@ router.delete(
 );
 
 //listing route
-router.get("/doctors", getAllDoctors);
+router.get('/doctors', getAllDoctors);
+router.post('/doctorsbyspec', getDoctorsBySpeciality);
 
 //search routes
-router.post("/doctors/search", searchDoctors);
-router.post("/doctors/search/:userId",
+router.post('/doctors/search', searchDoctors);
+router.post(
+  '/doctors/search/:userId',
   isSignedIn,
   isAuthenticated,
   searchDoctors,
-  filterRecommendations);
+  filterRecommendations
+);
 module.exports = router;

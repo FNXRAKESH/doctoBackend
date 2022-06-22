@@ -155,7 +155,7 @@ exports.deleteDoctor = (req, res) => {
 
 //doctors listing on homepage
 exports.getAllDoctors = (req, res) => {
-  let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+  let limit = req.query.limit ? parseInt(req.query.limit) : null;
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
 
   Doctor.find()
@@ -171,16 +171,26 @@ exports.getAllDoctors = (req, res) => {
     });
 };
 
+exports.getDoctorsBySpeciality = async (req, res) => {
+  console.log('req.params.spec', req.body.query);
+  var doctors = await Doctor.find({
+    speciality: {
+      $regex: req.body.query,
+      $options: 'i'
+    }
+  });
+  req.doctors = doctors;
+  res.json(doctors);
+};
 // Search field
 exports.searchDoctors = async function (req, res, next) {
-
   console.log(
     'req.body.coordinates ',
     req.body.coordinates,
     ' ',
     req.body.query
   );
-  if (req.body.coordinates) {
+  if (req.body.coordinates != undefined && req.body.coordinates[0] != null) {
     var doctors = await Doctor.find({
       location: {
         $near: {
@@ -191,12 +201,6 @@ exports.searchDoctors = async function (req, res, next) {
       $or: [
         {
           name: {
-            $regex: req.body.query,
-            $options: 'i'
-          }
-        },
-        {
-          description: {
             $regex: req.body.query,
             $options: 'i'
           }
@@ -220,16 +224,16 @@ exports.searchDoctors = async function (req, res, next) {
     res.json(doctors);
     // next();
   } else {
+    console.log(
+      'req.body.coordinates else',
+      req.body.coordinates,
+      ' ',
+      req.body.query
+    );
     var doctors = await Doctor.find({
       $or: [
         {
           name: {
-            $regex: req.body.query,
-            $options: 'i'
-          }
-        },
-        {
-          description: {
             $regex: req.body.query,
             $options: 'i'
           }
