@@ -196,12 +196,6 @@ exports.searchDoctors = async function (req, res, next) {
           }
         },
         {
-          description: {
-            $regex: req.body.query,
-            $options: 'i'
-          }
-        },
-        {
           speciality: {
             $regex: req.body.query,
             $options: 'i'
@@ -224,12 +218,6 @@ exports.searchDoctors = async function (req, res, next) {
       $or: [
         {
           name: {
-            $regex: req.body.query,
-            $options: 'i'
-          }
-        },
-        {
-          description: {
             $regex: req.body.query,
             $options: 'i'
           }
