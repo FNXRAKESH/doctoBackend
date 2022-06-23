@@ -6,21 +6,30 @@ const reviewSchema = new mongoose.Schema(
     rating: {
       type: Number,
       required: true
-  },
-  comment: {
+    },
+    comment: {
       type: String,
       trim: true
-  },
-  userid: {
+    },
+    user: {
+      type: String,
+    },
+    doctor: {
+      type: String,
+    },
+    photoUrl: {
+      type: String
+    },
+    userid: {
       type: ObjectId,
-      ref: "User",
-      required: true 
-  },
-  doctorid: {
-      type: ObjectId,
-      ref: "Doctor",
+      ref: 'User',
       required: true
-  }
+    },
+    doctorid: {
+      type: ObjectId,
+      ref: 'Doctor',
+      required: true
+    }
   },
   { timestamps: true }
 );

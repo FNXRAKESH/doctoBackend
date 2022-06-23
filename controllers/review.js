@@ -20,6 +20,7 @@ exports.getReviewById = (req, res, next, id) => {
 exports.createReview = async function (req, res) {
   var sumrating = 0;
   var length = 0;
+  console.log(req.body);
   const review = new Review(req.body);
   review.doctorid = req.params.doctorId;
   review.userid = req.params.userId;
@@ -31,7 +32,6 @@ exports.createReview = async function (req, res) {
       error: 'Not able to save review in DB'
     });
   }
-
   try {
     const doctor = await Doctor.findOne({ _id: req.params.doctorId });
     const count = await Review.countDocuments({
