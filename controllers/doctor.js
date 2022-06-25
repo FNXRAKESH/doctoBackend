@@ -245,6 +245,12 @@ exports.searchDoctors = async function (req, res, next) {
           }
         },
         {
+          locatedAt: {
+            $regex: req.body.query,
+            $options: 'i'
+          }
+        },
+        {
           hospitals: {
             $regex: req.body.query,
             $options: 'i'
