@@ -91,7 +91,7 @@ exports.getReviewsByDoctorId = (req, res) => {
 exports.updateReview = (req, res) => {
   const review = req.review;
   review.comment = req.body.comment;
-
+review.rating = req.body.rating;
   review.save((err, updatedReview) => {
     if (err) {
       return res.status(400).json({
