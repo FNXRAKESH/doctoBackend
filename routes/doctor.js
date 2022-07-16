@@ -3,14 +3,15 @@ const router = express.Router();
 
 const {
   getDoctorById,
-  createDoctor,
+  createDoctor,createSpecialist,
   getDoctor,
   updateDoctor,
   deleteDoctor,
   getAllDoctors,
   searchDoctors,
   filterRecommendations,
-  getDoctorsBySpeciality
+  getDoctorsBySpeciality,
+  getAllSpecialist
 } = require('../controllers/doctor');
 const { isSignedIn, isAuthenticated, isAdmin } = require('../controllers/auth');
 const { getUserById } = require('../controllers/user');
@@ -30,7 +31,11 @@ router.post(
   createDoctor
   // upload
 );
-
+router.post(
+  '/speciality/create/',
+  createSpecialist
+  // upload
+);
 // read routes
 router.get('/doctor/:doctorId', getDoctor);
 
@@ -54,6 +59,7 @@ router.delete(
 
 //listing route
 router.get('/doctors', getAllDoctors);
+router.get('/specialist', getAllSpecialist);
 router.post('/doctorsbyspec', getDoctorsBySpeciality);
 
 //search routes
