@@ -12,6 +12,7 @@ const s3 = new aws.S3({
 });
 
 const Doctor = require('../models/doctor');
+const Specialist = require('../models/specialist');
 const User = require('../models/user');
 const formidable = require('formidable');
 const _ = require('lodash');
@@ -95,6 +96,40 @@ exports.createDoctor = (req, res) => {
   });
 };
 
+exports.createSpecialist = (req, res) => {
+  console.log('create Specialist');
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+  singleFileUpload(req, res, (err) => {
+    if (err) {
+      return res.status(400).json(err);
+    }
+
+    if (
+      !req.body.name
+    ) {
+      return res.status(400).json({
+        error: 'Please include all fields'
+      });
+    }
+    let specialist = new Specialist();
+    for (field in req.body) {
+      specialist[field] = req.body[field];
+    }
+
+    //save to the getDoctorById
+    specialist.save((err, specialist) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          error: 'Saving doctor in DB failed'
+        });
+      }
+      return res.json(specialist);
+    });
+  });
+};
+
 //read
 exports.getDoctor = (req, res) => {
   return res.json(req.doctor);
@@ -168,6 +203,21 @@ exports.getAllDoctors = (req, res) => {
         });
       }
       res.json(doctors);
+    });
+};
+
+exports.getAllSpecialist = (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : null;
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+
+  Specialist.find()
+    .exec((err, Specialists) => {
+      if (err) {
+        return res.status(400).json({
+          error: 'NO specialist FOUND'
+        });
+      }
+      res.json(Specialists);
     });
 };
 
